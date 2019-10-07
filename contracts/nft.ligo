@@ -43,7 +43,7 @@ type action is
 function mint(const action : actionMint ; const s : storageType) : (list(operation) * storageType) is
   block { 
     // check permission
-    if source =/= s.contractOwner then fail("You do not have permission to mint assets");
+    if source =/= s.contractOwner then failwith("You do not have permission to mint assets");
     else skip;
     // create NFT for new ID
     const nfts : nfts = s.nfts;
@@ -59,7 +59,7 @@ function transfer(const action : actionTransfer ; const s : storageType) : (list
     const nft : nft = get_force(action.nftToTransfer, s.nfts);
     const owner: address = nft.owner;
     // check for permission
-    if source =/= owner then fail("You do not have permission to transfer this asset.")
+    if source =/= owner then failwith("You do not have permission to transfer this asset.")
     else skip;
     // change owner's address
     const nfts : nfts = s.nfts;
@@ -74,7 +74,7 @@ function burn(const action : actionBurn ; const s : storageType) : (list(operati
   block { 
     const nft : nft = get_force(action.nftToBurnId, s.nfts);
     // check for permission
-    if source =/= nft.owner then fail("You do not have permission to burn this asset")
+    if source =/= nft.owner then failwith("You do not have permission to burn this asset")
     else skip;
     // remove NFT
     const nfts : nfts = s.nfts;
